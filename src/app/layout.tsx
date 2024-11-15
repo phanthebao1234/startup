@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import "../../styles/globals.css";
+import "@/styles/globals.css";
 import { Navbar, Footer } from "@/components/common"
+import Provider from "@/redux/providers";
 
 export const metadata: Metadata = {
   title: "Full Auth",
@@ -17,9 +18,11 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <Provider>
+          <Navbar />
+          {children}
+          <Footer />
+        </Provider>
       </body>
     </html>
   );
