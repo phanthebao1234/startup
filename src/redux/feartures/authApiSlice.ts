@@ -17,7 +17,6 @@ interface CreateUserResponse {
   user: User;
 }
 
-
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     retrieveUser: builder.query<User, void>({
@@ -27,7 +26,7 @@ const authApiSlice = apiSlice.injectEndpoints({
       query: ({ provider, state, code }) => ({
         url: `/o/${provider}-oauth2/?state=${encodeURIComponent(
           state
-        )}&code=${encodeURIComponent(code)}}`,
+        )}&code=${encodeURIComponent(code)}`,
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -42,7 +41,6 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { email, password },
       }),
     }),
-
     register: builder.mutation({
       query: ({ firstname, lastname, email, password, re_password }) => ({
         url: "/users/",
@@ -78,13 +76,14 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     resetPasswordConfirm: builder.mutation({
-      query: ({uid, token, new_password, re_new_password}) => ({
+      query: ({ uid, token, new_password, re_new_password }) => ({
         url: "/users/reset_password_confirm/",
         method: "POST",
         body: { uid, token, new_password, re_new_password },
       }),
     }),
   }),
+  overrideExisting: false,
 });
 
 export const {
@@ -98,3 +97,5 @@ export const {
   useResetPasswordMutation,
   useResetPasswordConfirmMutation,
 } = authApiSlice;
+
+export default authApiSlice;
