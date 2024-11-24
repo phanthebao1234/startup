@@ -1,5 +1,5 @@
 // sử dụng redux toolkit và async-mutex để quản lý việc gọi api với cơ chế làm mới token tự động khi gặp lỗi xác thực 401
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query"; // hàm tiện ích để thực hiện các yêu cầu http cơ bản
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; // hàm tiện ích để thực hiện các yêu cầu http cơ bản
 import type {
   BaseQueryFn,
   FetchArgs,
@@ -65,7 +65,7 @@ const baseQueryWithReauth: BaseQueryFn<
 };
 
 export const apiSlice = createApi({
-    reducerPath: 'api',
-    baseQuery: baseQueryWithReauth,
-    endpoints: (builder) => ({})
-})
+	reducerPath: 'api',
+	baseQuery: baseQueryWithReauth,
+	endpoints: () => ({}),
+});

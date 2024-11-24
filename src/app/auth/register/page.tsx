@@ -1,9 +1,10 @@
 'use client'
-import { useState, ChangeEvent, FormEvent } from "react"
+import React, { useState, ChangeEvent, FormEvent } from "react"
 import Link from "next/link"
 import { useRegisterMutation } from "@/redux/feartures/authApiSlice"
 
 export default function RegisterPage() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [register, {isLoading}] = useRegisterMutation()
     const [formData, setFormData] = useState({
         first_name: "",
@@ -23,7 +24,7 @@ export default function RegisterPage() {
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         register({first_name, last_name, email, password, re_password})
-            .unwarp()
+            .unwrap()
             .then(() => {})
             .catch(() => {})
     }
