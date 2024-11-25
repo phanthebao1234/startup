@@ -2,9 +2,12 @@
 import React, { useState, ChangeEvent, FormEvent } from "react"
 import Link from "next/link"
 import { useRegisterMutation } from "@/redux/feartures/authApiSlice"
+import { toast } from "react-toastify"
+import { useRouter } from "next/navigation"
+import { Spinner } from "@/src/components/common"
 
 export default function RegisterPage() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const router = useRouter()
     const [register, {isLoading}] = useRegisterMutation()
     const [formData, setFormData] = useState({
         first_name: "",
@@ -23,10 +26,16 @@ export default function RegisterPage() {
     
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        console.log(first_name, last_name, email, password, re_password);
         register({first_name, last_name, email, password, re_password})
             .unwrap()
-            .then(() => {})
-            .catch(() => {})
+            .then(() => {
+                toast.success("Please check email to verify account")
+                router.push('/auth/login')
+            })
+            .catch(() => {
+                toast.error("Failed to register account")
+            })
     }
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -123,7 +132,7 @@ export default function RegisterPage() {
                             <input
                                 id="re_password"
                                 name="re_password"
-                                type="re_password"
+                                type="password"
                                 required
                                 onChange={onChange}
                                 value={re_password}
@@ -137,7 +146,7 @@ export default function RegisterPage() {
                             type="submit"
                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                            Sign in
+                            {isLoading ? <Spinner sm /> : "Sign up"}
                         </button>
                     </div>
                 </form>

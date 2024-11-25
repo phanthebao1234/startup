@@ -1,9 +1,10 @@
+import '@/styles/globals.css';
 import type { Metadata } from "next";
-import "@/styles/globals.css";
 
 import Provider from '@/redux/providers';
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
+import { Setup } from '../components/utils';
 
 export const metadata: Metadata = {
   title: "Full Auth",
