@@ -1,6 +1,6 @@
 'use client'
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import '@/node_modules/react-toastify/dist/ReactToastify.css';
 
 export default function Setup() {
     return <ToastContainer />
