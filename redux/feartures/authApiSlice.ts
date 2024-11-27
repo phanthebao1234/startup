@@ -95,4 +95,5 @@ const authApiSlice = apiSlice.injectEndpoints({
 
 export const {
 	useRegisterMutation,
+	useActivationMutation,
 } = authApiSlice;
