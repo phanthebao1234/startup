@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-
+import Link from "next/link";
 interface Props {
     type: string;
     labelId: string;
@@ -7,16 +7,29 @@ interface Props {
     value: string;
     children: React.ReactNode;
     required?: boolean;
+    link?: {
+        linkText: string;
+        linkUrl: string;
+    }
 }
-export default function Input({labelId, type, onChange, value, children, required = false}: Props) {
+export default function Input({ labelId, type, onChange, value, children, required = false, link }: Props) {
     return (
         <div>
-            <label
-                htmlFor={labelId}
-                className="block text-sm/6 font-medium text-gray-900"
-            >
-                {children}
-            </label>
+            <div className="flex justify-between align-center">
+                <label
+                    htmlFor={labelId}
+                    className="block text-sm/6 font-medium text-gray-900"
+                >
+                    {children}
+                </label>
+                {link && (
+                    <div className="text-sm">
+                        <Link className="font-semibold text-indigo-600 hover:text-indigo-500" href={link.linkUrl}>
+                            {link.linkText}
+                        </Link>
+                    </div>
+                )}
+            </div>
             <div className="mt-2">
                 <input
                     id={labelId}
