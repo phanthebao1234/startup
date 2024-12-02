@@ -1,22 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { useLogoutMutation } from '@/redux/feartures/authApiSlice';
 import { logout as setLogout } from '@/redux/feartures/authSlice';
 import { useDispatch } from 'react-redux';
+import { NavLink } from '@/src/components/common'
 
 export default function Navbar() {
+  const pathname = usePathname()
   const router = useRouter();
   const dispatch = useDispatch()
-  
+
   const [logout] = useLogoutMutation()
-  
+
   const { isAuthenticated } = useAppSelector(state => state.auth)
-  
+
   const handleLogout = () => {
     logout(undefined)
       .unwrap()
@@ -27,15 +29,50 @@ export default function Navbar() {
         router.push('/')
       })
   }
-  
+
   const authLinks = (
     <div>AUTH LINKS</div>
   )
-  
-  const guestLinks = (
-    <div>GUEST LINKS</div>
+
+  const isSelected = (path: string) => !!(pathname === path)
+
+  const authLink = (isMobile: boolean) => (
+    <>
+      <NavLink
+        isSelected={isSelected('/')}
+        isMobile={isMobile}
+        href={'/'}
+      >
+        Dashboard
+      </NavLink>
+      <NavLink
+        isMobile={isMobile}
+        onClick={handleLogout}
+      >
+        Logout
+      </NavLink>
+    </>
   )
-  
+
+  const guestLinks = (isMobile: boolean) => (
+    <>
+      <NavLink
+        isSelected={isSelected('/auth/login')}
+        isMobile={isMobile}
+        href={'/auth/login'}
+      >
+        Login
+      </NavLink>
+      <NavLink
+        isSelected={isSelected('/auth/register')}
+        isMobile={isMobile}
+        href={'/auth/register'}
+      >
+        Register
+      </NavLink>
+    </>
+  )
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -51,23 +88,23 @@ export default function Navbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center">
-              <Link className="text-gray-300 rounded-md px-3 py-2 font-medium" href='/'>Full Auth</Link>
+              <NavLink href="/" isBanner>Full Auth</NavLink>
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {isAuthenticated ? authLinks : guestLinks}
+                {isAuthenticated ? authLink(false) : guestLinks(false)}
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
-          </div>
+          {/* <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            {isAuthenticated ? authLink(false) : guestLinks(false)}
+          </div> */}
         </div>
       </div>
 
       <DisclosurePanel className="sm:hidden">
         <div className="space-y-1 px-2 pb-3 pt-2">
-          <Link className="text-gray-300 rounded-md px-3 py-2 font-medium" href='/'>Full Auth</Link>
+        {isAuthenticated ? authLink(false) : guestLinks(false)}
         </div>
       </DisclosurePanel>
     </Disclosure>
