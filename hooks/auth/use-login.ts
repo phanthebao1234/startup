@@ -13,7 +13,6 @@ export default function useLogin() {
     email: "",
     password: ""
   });
-
   const { email, password } = formData;
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

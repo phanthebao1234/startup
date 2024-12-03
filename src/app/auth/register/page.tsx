@@ -1,4 +1,3 @@
-'use client'
 import Link from "next/link"
 import { RegisterForm } from "@/src/components/forms"
 import type { Metadata } from "next"
